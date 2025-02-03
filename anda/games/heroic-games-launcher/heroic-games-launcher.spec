@@ -75,7 +75,7 @@ EOF
 %doc     README.md
 %doc     CODE_OF_CONDUCT.md
 %license COPYING
-%_datadir/heroic
+%dir %_datadir/heroic
 %_datadir/pixmaps/heroic.png
 %_bindir/heroic-games-launcher
 %_datadir/applications/heroic.desktop
