@@ -9,13 +9,14 @@ Summary:       A games launcher for GOG, Amazon, and Epic Games
 License:       GPL-3.0-only AND MIT AND BSD-3-Clause
 URL:           https://heroicgameslauncher.com
 Source0:       https://github.com/Heroic-Games-Launcher/%{git_name}/archive/refs/tags/v%{version}.tar.gz
+Source1:       https://raw.githubusercontent.com/Heroic-Games-Launcher/%{git_name}/refs/heads/main/flatpak/com.heroicgameslauncher.hgl.desktop
 ### Makes it actually sign the package, though will say it was skipped first.
 Patch0:        afterPack.diff
 BuildRequires: bsdtar
-BuildRequires: libxcrypt-compat
 ### Electron builder builds some things with GCC(++) and Make
 BuildRequires: gcc
 BuildRequires: gcc-c++
+BuildRequires: libxcrypt-compat
 BuildRequires: make
 BuildRequires: nodejs
 BuildRequires: pnpm
@@ -28,6 +29,7 @@ Requires:      python3
 Requires:      which
 Recommends:    gamemode
 Recommends:    mangohud
+Recommends:    umu-launcher
 Packager:      ShinyGil <rockgrub@disroot.org>
 
 %description
@@ -35,6 +37,8 @@ Heroic is a Free and Open Source Epic, GOG, and Amazon Prime Games launcher for 
 
 %prep
 %autosetup -n %{git_name}-%{version} -p1
+sed -i 's/Exec=.*%u/Exec=\/usr\/share\/heroic\/heroic %u/g' %{SOURCE1}
+sed -i 's/Icon=.*/Icon=heroic/g' %{SOURCE1}
 
 %build
 pnpm install
@@ -56,26 +60,13 @@ install -Dm644 dist/.icon-set/icon_128x128.png %{buildroot}%{_iconsdir}/hicolor/
 install -Dm644 dist/.icon-set/icon_256x256.png %{buildroot}%{_iconsdir}/hicolor/256x256/heroic.png
 install -Dm644 dist/.icon-set/icon_512x512.png %{buildroot}%{_iconsdir}/hicolor/512x512/heroic.png
 install -Dm644 dist/.icon-set/icon_1024.png %{buildroot}%{_iconsdir}/hicolor/1024x1024/heroic.png
-mkdir -p %{buildroot}%{_datadir}/applications/
-cat > %{buildroot}%{_datadir}/applications/heroic.desktop << EOF
-[Desktop Entry]
-Name=Heroic Games Launcher
-Exec=%{_datadir}/heroic/heroic %U
-Terminal=false
-Type=Application
-Icon=heroic
-StartupWMClass=Heroic
-Comment[de]=Ein Open source Spielelauncher for GOG, Amazon und Epic Games
-Comment=Open source GOG, Amazon, and Epic Games launcher
-MimeType=x-scheme-handler/heroic;
-Categories=Game;
-EOF
+install -Dm644 %{SOURCE1} %{buildroot}%{_datadir}/applications/heroic.desktop
 
 %files
 %doc     README.md
 %doc     CODE_OF_CONDUCT.md
 %license COPYING
-%dir %_datadir/heroic
+%_datadir/heroic
 %_datadir/pixmaps/heroic.png
 %_bindir/heroic-games-launcher
 %_datadir/applications/heroic.desktop
