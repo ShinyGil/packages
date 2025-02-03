@@ -13,6 +13,7 @@ Source1:       https://raw.githubusercontent.com/Heroic-Games-Launcher/%{git_nam
 ### Makes it actually sign the package, though will say it was skipped first.
 Patch0:        afterPack.diff
 BuildRequires: bsdtar
+BuildRequires: desktop-file-utils
 ### Electron builder builds some things with GCC(++) and Make
 BuildRequires: gcc
 BuildRequires: gcc-c++
@@ -61,6 +62,9 @@ install -Dm644 dist/.icon-set/icon_256x256.png %{buildroot}%{_iconsdir}/hicolor/
 install -Dm644 dist/.icon-set/icon_512x512.png %{buildroot}%{_iconsdir}/hicolor/512x512/heroic.png
 install -Dm644 dist/.icon-set/icon_1024.png %{buildroot}%{_iconsdir}/hicolor/1024x1024/heroic.png
 install -Dm644 %{SOURCE1} %{buildroot}%{_datadir}/applications/heroic.desktop
+
+%check
+desktop-file-validate %{buildroot}%{_datadir}/applications/heroic.desktop
 
 %files
 %doc     README.md
