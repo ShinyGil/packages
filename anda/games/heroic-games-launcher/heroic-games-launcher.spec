@@ -1,6 +1,8 @@
 %global debug_package %{nil}
-%global git_name HeroicGamesLauncher
+%global __requires_exclude libffmpeg.so
+%global __provides_exclude_from %{_datadir}/%{name}/*.so*
 %define _build_id_links none
+%global git_name HeroicGamesLauncher
 
 Name:          heroic-games-launcher
 Version:       2.15.2
