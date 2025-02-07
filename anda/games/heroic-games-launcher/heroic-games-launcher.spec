@@ -1,6 +1,7 @@
 %global debug_package %{nil}
 %global __requires_exclude libffmpeg.so
-%global __provides_exclude_from %{_datadir}/heroic/*.so*
+%global __provides_exclude_from %{_datadir}/heroic/.*\\.so
+%global __provides_exclude_from %{_datadir}/heroic/.*\\.so.1
 %define _build_id_links none
 %global git_name HeroicGamesLauncher
 
