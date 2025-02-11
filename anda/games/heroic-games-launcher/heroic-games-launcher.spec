@@ -54,7 +54,7 @@ pnpm dist:linux pacman
 mkdir -p %{buildroot}%{_datadir}/heroic
 mv dist/linux-unpacked/* %{buildroot}%{_datadir}/heroic
 mkdir -p %{buildroot}%{_bindir}
-ln -sf %{_datadir}/heroic/heroic %{buildroot}%{_bindir}/%{name}
+ln -sr %{_datadir}/heroic/heroic %{buildroot}%{_bindir}/%{name}
 install -Dm644 public/icon.png %{buildroot}%{_datadir}/pixmaps/heroic.png
 install -Dm644 dist/.icon-set/icon_16x16.png %{buildroot}%{_iconsdir}/hicolor/16x16/heroic.png
 install -Dm644 dist/.icon-set/icon_32x32.png %{buildroot}%{_iconsdir}/hicolor/32x32/heroic.png
